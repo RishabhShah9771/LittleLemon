@@ -1,36 +1,83 @@
+import { Link } from "react-router-dom";
+import logo from "../assets/images/Logo.svg";
+
 function Footer() {
   return (
-    <footer>
-      <img
-        src="/logo.png"
-        alt="Little Lemon"
-        width="150"
-      />
+    <footer className="site-footer">
+      <div className="footer-container">
+        <div className="footer-logo">
+          <Link to="/" aria-label="Little Lemon Home">
+            <img src={logo} alt="Little Lemon" />
+          </Link>
+        </div>
 
-      <nav aria-label="Footer navigation">
-        <ul>
-          <li><a href="#home">Home</a></li>
-          <li><a href="#about">About</a></li>
-          <li><a href="#menu">Menu</a></li>
-          <li><a href="#reservations">Reservations</a></li>
-          <li><a href="#order-online">Order Online</a></li>
-          <li><a href="#login">Login</a></li>
-        </ul>
-      </nav>
+        <div className="footer-column">
+          <h3>Navigation</h3>
 
-      <section aria-labelledby="contact-title">
-        <h2 id="contact-title">Contact Us</h2>
-        <address>
-          Little Lemon
-          <br />
-          Chicago, Illinois
-        </address>
-      </section>
+          <ul>
+            <li>
+              <Link to="/">Home</Link>
+            </li>
 
-      <p>
-        &copy; {new Date().getFullYear()} Little Lemon.
-        All rights reserved.
-      </p>
+            <li>
+              <Link to="/about">About</Link>
+            </li>
+
+            <li>
+              <Link to="/menu">Menu</Link>
+            </li>
+
+            <li>
+              <Link to="/booking">Reservations</Link>
+            </li>
+
+            <li>
+              <Link to="/order-online">Order Online</Link>
+            </li>
+
+            <li>
+              <Link to="/login">Login</Link>
+            </li>
+          </ul>
+        </div>
+
+        <div className="footer-column">
+          <h3>Contact</h3>
+
+          <address>
+            <p>2395 Maldove Way</p>
+            <p>Chicago, Illinois</p>
+            <p>
+              <a href="tel:+16292436827">
+                (629) 243-6827
+              </a>
+            </p>
+            <p>
+              <a href="mailto:info@littlelemon.com">
+                info@littlelemon.com
+              </a>
+            </p>
+          </address>
+        </div>
+
+        <div className="footer-column">
+          <h3>Social Media</h3>
+
+          <ul>
+            <li>
+              <a href="#facebook">Facebook</a>
+            </li>
+
+            <li>
+              <a href="#instagram">Instagram</a>
+            </li>
+
+            <li>
+              <a href="#twitter">Twitter</a>
+            </li>
+          </ul>
+        </div>
+      </div>
     </footer>
   );
 }

@@ -1,13 +1,16 @@
+import { Link } from "react-router-dom";
+import logo from "../assets/images/Logo.svg";
+
 function Header() {
   return (
-    <header>
-      <a href="#home" aria-label="Little Lemon home">
+    <header className="site-header">
+      <Link to="/" aria-label="Little Lemon Home">
         <img
-          src="/logo.png"
+          className="header-logo"
+          src={logo}
           alt="Little Lemon"
-          width="200"
         />
-      </a>
+      </Link>
     </header>
   );
 }
