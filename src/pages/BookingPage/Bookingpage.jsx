@@ -2,7 +2,7 @@ import BookingForm from "../../components/BookingForm/BookingForm.jsx";
 
 import "./BookingPage.css";
 
-function BookingPage() {
+function BookingPage({ availableTimes, dispatch }) {
   return (
     <section className="booking-page">
       <header className="booking-header">
@@ -14,7 +14,10 @@ function BookingPage() {
         </p>
       </header>
 
-      <BookingForm />
+      <BookingForm
+        availableTimes={availableTimes}
+        dispatch={dispatch}
+      />
     </section>
   );
 }

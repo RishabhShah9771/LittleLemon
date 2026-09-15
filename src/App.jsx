@@ -12,9 +12,7 @@ function App() {
         <Header />
         <Nav />
       </div>
-
       <Main />
-
       <Footer />
     </div>
   );

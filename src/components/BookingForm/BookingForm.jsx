@@ -2,20 +2,28 @@ import { useState } from "react";
 
 import "./BookingForm.css";
 
-function BookingForm() {
+function BookingForm({ availableTimes, dispatch }) {
   const [date, setDate] = useState("");
-  const [time, setTime] = useState("17:00");
+  const [time, setTime] = useState("");
   const [guests, setGuests] = useState("1");
   const [occasion, setOccasion] = useState("Birthday");
 
-  const [availableTimes] = useState([
-    "17:00",
-    "18:00",
-    "19:00",
-    "20:00",
-    "21:00",
-    "22:00",
-  ]);
+  const handleDateChange = (event) => {
+    const selectedDate = event.target.value;
+
+    setDate(selectedDate);
+
+    dispatch({
+      type: "UPDATE_TIMES",
+      date: selectedDate,
+    });
+
+    /*
+      Reset the selected time because available
+      booking times may change when the date changes.
+    */
+    setTime("");
+  };
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -47,9 +55,7 @@ function BookingForm() {
           type="date"
           id="res-date"
           value={date}
-          onChange={(event) =>
-            setDate(event.target.value)
-          }
+          onChange={handleDateChange}
           required
         />
       </div>
@@ -67,6 +73,10 @@ function BookingForm() {
           }
           required
         >
+          <option value="">
+            Select a time
+          </option>
+
           {availableTimes.map(
             (availableTime) => (
               <option
