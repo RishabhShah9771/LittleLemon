@@ -12,7 +12,13 @@ function BookingForm({
   const [guests, setGuests] = useState(1);
   const [occasion, setOccasion] = useState("");
 
-  const [bookingData, setBookingData] = useState([]);
+  const [bookingData, setBookingData] = useState(() => {
+    const savedBookings = localStorage.getItem("bookingData");
+
+    return savedBookings
+      ? JSON.parse(savedBookings)
+      : [];
+  });
 
   const handleDateChange = (event) => {
     const selectedDate = event.target.value;
@@ -36,10 +42,17 @@ function BookingForm({
     const success = submitForm(formData);
 
     if (success) {
-      setBookingData((previousBookings) => [
-        ...previousBookings,
+      const updatedBookings = [
+        ...bookingData,
         formData,
-      ]);
+      ];
+
+      setBookingData(updatedBookings);
+
+      localStorage.setItem(
+        "bookingData",
+        JSON.stringify(updatedBookings)
+      );
     }
   };
 
@@ -164,9 +177,7 @@ function BookingForm({
                     key={`${booking.date}-${booking.time}-${index}`}
                   >
                     <td>{booking.date}</td>
-
                     <td>{booking.time}</td>
-
                     <td>{booking.guests}</td>
 
                     <td>

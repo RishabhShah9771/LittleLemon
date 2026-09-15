@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useReducer } from "react";
 import {
   Route,
   Routes,
@@ -7,21 +7,62 @@ import {
 
 import Homepage from "../../pages/HomePage/Homepage.jsx";
 import BookingPage from "../../pages/BookingPage/Bookingpage.jsx";
-import AboutPage from "../../pages//AboutPage/AboutPage.jsx";
+import AboutPage from "../../pages/AboutPage/AboutPage.jsx";
 import ConfirmedBooking from "../../pages/ConfirmBookingPage/ConfirmedBooking.jsx";
 
-import BookingTimesLoader from "../../components/FetchAPI/BookingTimesLoader.jsx";
+export function initializeTimes() {
+  const today = new Date();
+
+  return window.fetchAPI(today);
+}
+
+export function updateTimes(state, action) {
+  if (action.type === "DATE_CHANGE") {
+    const selectedDate = new Date(
+      `${action.date}T00:00:00`
+    );
+
+    return window.fetchAPI(selectedDate);
+  }
+
+  return state;
+}
 
 function Main() {
-  const [selectedDate, setSelectedDate] = useState("");
-  const [availableTimes, setAvailableTimes] = useState([]);
-
   const navigate = useNavigate();
+
+  const [availableTimes, dispatch] = useReducer(
+    updateTimes,
+    [],
+    initializeTimes
+  );
+
+  const handleDateChange = (selectedDate) => {
+    dispatch({
+      type: "DATE_CHANGE",
+      date: selectedDate,
+    });
+  };
 
   const submitForm = (formData) => {
     const success = window.submitAPI(formData);
 
     if (success) {
+      const savedBookings =
+        JSON.parse(
+          localStorage.getItem("bookingData")
+        ) || [];
+
+      const updatedBookings = [
+        ...savedBookings,
+        formData,
+      ];
+
+      localStorage.setItem(
+        "bookingData",
+        JSON.stringify(updatedBookings)
+      );
+
       navigate("/confirmed");
     }
 
@@ -30,11 +71,6 @@ function Main() {
 
   return (
     <main>
-      <BookingTimesLoader
-        selectedDate={selectedDate}
-        setAvailableTimes={setAvailableTimes}
-      />
-
       <Routes>
         <Route
           path="/"
@@ -51,7 +87,7 @@ function Main() {
           element={
             <BookingPage
               availableTimes={availableTimes}
-              onDateChange={setSelectedDate}
+              onDateChange={handleDateChange}
               submitForm={submitForm}
             />
           }
@@ -61,8 +97,6 @@ function Main() {
           path="/confirmed"
           element={<ConfirmedBooking />}
         />
-
-      
       </Routes>
     </main>
   );

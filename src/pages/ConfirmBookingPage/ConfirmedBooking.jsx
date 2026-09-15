@@ -1,6 +1,21 @@
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+
 import "./ConfirmedBooking.css";
 
 function ConfirmedBooking() {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      navigate("/booking");
+    }, 3000);
+
+    return () => {
+      clearTimeout(timer);
+    };
+  }, [navigate]);
+
   return (
     <section className="confirmed-booking-page">
       <div className="confirmed-booking-card">
@@ -16,6 +31,10 @@ function ConfirmedBooking() {
 
         <p>
           We look forward to seeing you at Little Lemon.
+        </p>
+
+        <p className="confirmed-redirect-message">
+          Returning to your reservations...
         </p>
       </div>
     </section>

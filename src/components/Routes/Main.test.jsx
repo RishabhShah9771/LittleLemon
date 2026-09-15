@@ -1,12 +1,4 @@
 import {
-  cleanup,
-  render,
-  screen,
-  waitFor,
-} from "@testing-library/react";
-import { MemoryRouter } from "react-router-dom";
-import {
-  afterEach,
   beforeEach,
   describe,
   expect,
@@ -14,58 +6,79 @@ import {
   vi,
 } from "vitest";
 
-import Main from "./Main.jsx";
+import {
+  initializeTimes,
+  updateTimes,
+} from "./Main.jsx";
 
-describe("Main", () => {
+describe("Booking available times", () => {
+  const mockTimes = [
+    "17:00",
+    "17:30",
+    "18:00",
+    "18:30",
+    "19:00",
+  ];
+
   beforeEach(() => {
-    window.fetchAPI = vi.fn(() => [
+    window.fetchAPI = vi.fn(() => mockTimes);
+  });
+
+  test("initializeTimes returns available booking times", () => {
+    const result = initializeTimes();
+
+    expect(result).toEqual(mockTimes);
+
+    expect(result.length).toBeGreaterThan(0);
+
+    expect(window.fetchAPI).toHaveBeenCalledTimes(1);
+
+    expect(
+      window.fetchAPI
+    ).toHaveBeenCalledWith(
+      expect.any(Date)
+    );
+  });
+
+  test("updateTimes returns available times for selected date", () => {
+    const currentState = [];
+
+    const action = {
+      type: "DATE_CHANGE",
+      date: "2026-09-20",
+    };
+
+    const result = updateTimes(
+      currentState,
+      action
+    );
+
+    expect(result).toEqual(mockTimes);
+
+    expect(window.fetchAPI).toHaveBeenCalledTimes(1);
+
+    expect(
+      window.fetchAPI
+    ).toHaveBeenCalledWith(
+      expect.any(Date)
+    );
+  });
+
+  test("updateTimes returns existing state for unknown action", () => {
+    const currentState = [
       "17:00",
       "18:00",
-      "19:00",
-      "20:00",
-      "21:00",
-      "22:00",
-    ]);
-  });
+    ];
 
-  afterEach(() => {
-    cleanup();
-    vi.clearAllMocks();
-  });
+    const action = {
+      type: "UNKNOWN",
+    };
 
-  test("renders the booking page", () => {
-    render(
-      <MemoryRouter initialEntries={["/booking"]}>
-        <Main />
-      </MemoryRouter>
+    const result = updateTimes(
+      currentState,
+      action
     );
 
-    expect(
-      screen.getByText("Reserve a Table")
-    ).toBeInTheDocument();
-  });
-
-  test("displays available booking times", async () => {
-    render(
-      <MemoryRouter initialEntries={["/booking"]}>
-        <Main />
-      </MemoryRouter>
-    );
-
-    await waitFor(() => {
-      expect(window.fetchAPI).toHaveBeenCalled();
-    });
-
-    expect(
-      screen.getByRole("option", {
-        name: "17:00",
-      })
-    ).toBeInTheDocument();
-
-    expect(
-      screen.getByRole("option", {
-        name: "22:00",
-      })
-    ).toBeInTheDocument();
+    expect(result).toEqual(currentState);
   });
 });
