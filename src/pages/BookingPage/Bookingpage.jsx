@@ -1,23 +1,24 @@
 import BookingForm from "../../components/BookingForm/BookingForm.jsx";
-
 import "./BookingPage.css";
 
-function BookingPage({ availableTimes, dispatch }) {
+function BookingPage({
+  availableTimes,
+  onDateChange,
+  submitForm,
+}) {
   return (
     <section className="booking-page">
-      <header className="booking-header">
-        <h1>Reserve a Table</h1>
+      <div className="booking-page-container">
+        <h1 className="booking-page-title">
+          Reserve a Table
+        </h1>
 
-        <p>
-          Select your preferred date, time, number of guests and
-          occasion to make your reservation.
-        </p>
-      </header>
-
-      <BookingForm
-        availableTimes={availableTimes}
-        dispatch={dispatch}
-      />
+        <BookingForm
+          availableTimes={availableTimes}
+          onDateChange={onDateChange}
+          submitForm={submitForm}
+        />
+      </div>
     </section>
   );
 }

@@ -2,141 +2,195 @@ import { useState } from "react";
 
 import "./BookingForm.css";
 
-function BookingForm({ availableTimes, dispatch }) {
+function BookingForm({
+  availableTimes,
+  onDateChange,
+  submitForm,
+}) {
   const [date, setDate] = useState("");
   const [time, setTime] = useState("");
-  const [guests, setGuests] = useState("1");
-  const [occasion, setOccasion] = useState("Birthday");
+  const [guests, setGuests] = useState(1);
+  const [occasion, setOccasion] = useState("");
+
+  const [bookingData, setBookingData] = useState(() => {
+    const savedBookings = localStorage.getItem("bookingData");
+
+    return savedBookings
+      ? JSON.parse(savedBookings)
+      : [];
+  });
 
   const handleDateChange = (event) => {
     const selectedDate = event.target.value;
 
     setDate(selectedDate);
-
-    dispatch({
-      type: "UPDATE_TIMES",
-      date: selectedDate,
-    });
-
-    /*
-      Reset the selected time because available
-      booking times may change when the date changes.
-    */
     setTime("");
+
+    onDateChange(selectedDate);
   };
 
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    const bookingData = {
+    const formData = {
       date,
       time,
       guests,
       occasion,
     };
 
-    console.log(
-      "Reservation submitted:",
-      bookingData
-    );
+    const success = submitForm(formData);
+
+    if (success) {
+      const updatedBookings = [
+        ...bookingData,
+        formData,
+      ];
+
+      setBookingData(updatedBookings);
+
+      localStorage.setItem(
+        "bookingData",
+        JSON.stringify(updatedBookings)
+      );
+    }
   };
 
   return (
-    <form
-      className="booking-form"
-      onSubmit={handleSubmit}
-    >
-      <div className="booking-field">
-        <label htmlFor="res-date">
-          Choose date
-        </label>
+    <div className="booking-content">
+      <form
+        className="booking-form"
+        onSubmit={handleSubmit}
+      >
+        <div className="booking-field">
+          <label htmlFor="res-date">
+            Choose date
+          </label>
 
-        <input
-          type="date"
-          id="res-date"
-          value={date}
-          onChange={handleDateChange}
-          required
-        />
-      </div>
+          <input
+            type="date"
+            id="res-date"
+            value={date}
+            onChange={handleDateChange}
+            required
+          />
+        </div>
 
-      <div className="booking-field">
-        <label htmlFor="res-time">
-          Choose time
-        </label>
+        <div className="booking-field">
+          <label htmlFor="res-time">
+            Choose time
+          </label>
 
-        <select
-          id="res-time"
-          value={time}
-          onChange={(event) =>
-            setTime(event.target.value)
-          }
-          required
-        >
-          <option value="">
-            Select a time
-          </option>
+          <select
+            id="res-time"
+            value={time}
+            onChange={(event) =>
+              setTime(event.target.value)
+            }
+            required
+          >
+            <option value="">
+              Select a time
+            </option>
 
-          {availableTimes.map(
-            (availableTime) => (
+            {availableTimes.map((availableTime) => (
               <option
                 key={availableTime}
                 value={availableTime}
               >
                 {availableTime}
               </option>
-            )
-          )}
-        </select>
-      </div>
+            ))}
+          </select>
+        </div>
 
-      <div className="booking-field">
-        <label htmlFor="guests">
-          Number of guests
-        </label>
+        <div className="booking-field">
+          <label htmlFor="guests">
+            Number of guests
+          </label>
 
-        <input
-          type="number"
-          id="guests"
-          placeholder="1"
-          min="1"
-          max="10"
-          value={guests}
-          onChange={(event) =>
-            setGuests(event.target.value)
-          }
-          required
-        />
-      </div>
+          <input
+            type="number"
+            id="guests"
+            min="1"
+            max="10"
+            value={guests}
+            onChange={(event) =>
+              setGuests(Number(event.target.value))
+            }
+            required
+          />
+        </div>
 
-      <div className="booking-field">
-        <label htmlFor="occasion">
-          Occasion
-        </label>
+        <div className="booking-field">
+          <label htmlFor="occasion">
+            Occasion
+          </label>
 
-        <select
-          id="occasion"
-          value={occasion}
-          onChange={(event) =>
-            setOccasion(event.target.value)
-          }
+          <select
+            id="occasion"
+            value={occasion}
+            onChange={(event) =>
+              setOccasion(event.target.value)
+            }
+          >
+            <option value="">
+              Select an occasion
+            </option>
+
+            <option value="Birthday">
+              Birthday
+            </option>
+
+            <option value="Anniversary">
+              Anniversary
+            </option>
+          </select>
+        </div>
+
+        <button
+          type="submit"
+          className="booking-submit"
         >
-          <option value="Birthday">
-            Birthday
-          </option>
+          Make Your Reservation
+        </button>
+      </form>
 
-          <option value="Anniversary">
-            Anniversary
-          </option>
-        </select>
-      </div>
+      {bookingData.length > 0 && (
+        <div className="booking-table-container">
+          <h2>Your Reservations</h2>
 
-      <input
-        className="booking-submit"
-        type="submit"
-        value="Make Your Reservation"
-      />
-    </form>
+          <div className="booking-table-wrapper">
+            <table className="booking-table">
+              <thead>
+                <tr>
+                  <th>Date</th>
+                  <th>Time</th>
+                  <th>Guests</th>
+                  <th>Occasion</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                {bookingData.map((booking, index) => (
+                  <tr
+                    key={`${booking.date}-${booking.time}-${index}`}
+                  >
+                    <td>{booking.date}</td>
+                    <td>{booking.time}</td>
+                    <td>{booking.guests}</td>
+
+                    <td>
+                      {booking.occasion || "None"}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      )}
+    </div>
   );
 }
 

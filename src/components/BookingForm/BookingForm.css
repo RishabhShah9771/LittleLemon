@@ -1,13 +1,19 @@
-.booking-form {
+.booking-content {
   width: 100%;
   max-width: 500px;
+}
+
+.booking-form {
+  width: 100%;
 
   display: grid;
+
   gap: 22px;
 }
 
 .booking-field {
   display: grid;
+
   gap: 8px;
 }
 
@@ -15,25 +21,32 @@
   color: var(--highlight-dark);
 
   font-size: 16px;
+
   font-weight: 700;
 }
 
 .booking-field input,
 .booking-field select {
   width: 100%;
+
   height: 60px;
 
   padding: 0 16px;
 
+  box-sizing: border-box;
+
   border: 2px solid transparent;
+
   border-radius: 8px;
 
   outline: none;
 
   background-color: var(--highlight-light);
+
   color: var(--primary-green);
 
   font-size: 16px;
+
   font-weight: 700;
 
   transition:
@@ -56,6 +69,7 @@
 
 .booking-field select option {
   background-color: var(--highlight-light);
+
   color: var(--primary-green);
 
   font-weight: 700;
@@ -63,17 +77,21 @@
 
 .booking-submit {
   width: 100%;
+
   height: 56px;
 
   margin-top: 8px;
 
   border: none;
+
   border-radius: var(--border-radius);
 
   background-color: var(--primary-yellow);
+
   color: var(--highlight-dark);
 
   font-size: 17px;
+
   font-weight: 700;
 
   cursor: pointer;
@@ -86,6 +104,7 @@
 
 .booking-submit:hover {
   background-color: #ffe04c;
+
   transform: translateY(-2px);
 }
 
@@ -98,16 +117,81 @@
 
 .booking-submit:focus-visible {
   outline: 3px solid var(--primary-green);
+
   outline-offset: 3px;
 }
 
+/* Reservation table */
+
+.booking-table-container {
+  width: 100%;
+  margin-top: 40px;
+}
+
+
+.booking-table-container h2 {
+  margin: 0 0 18px;
+
+  color: var(--primary-green);
+
+  font-size: 20px;
+}
+
+.booking-table-wrapper {
+  width: 100%;
+
+  overflow-x: auto;
+
+  border-radius: 8px;
+}
+
+.booking-table {
+  width: 100%;
+
+  border-collapse: collapse;
+
+  background-color: var(--highlight-light);
+}
+
+.booking-table th,
+.booking-table td {
+  padding: 14px 12px;
+
+  text-align: left;
+
+  border-bottom: 1px solid #cccccc;
+}
+
+.booking-table th {
+  background-color: var(--primary-green);
+
+  color: white;
+
+  font-weight: 700;
+}
+
+.booking-table td {
+  color: var(--highlight-dark);
+}
+
+.booking-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
 @media (max-width: 700px) {
-  .booking-form {
+  .booking-content {
     max-width: 100%;
   }
 
   .booking-field input,
   .booking-field select {
     height: 56px;
+  }
+
+  .booking-table th,
+  .booking-table td {
+    padding: 12px 10px;
+
+    font-size: 14px;
   }
 }
