@@ -1,8 +1,13 @@
 import { Link } from "react-router-dom";
 
+import "./Navigation.css";
+
 function Nav() {
   return (
-    <nav className="main-navigation" aria-label="Main navigation">
+    <nav
+      className="main-navigation"
+      aria-label="Main navigation"
+    >
       <ul>
         <li>
           <Link to="/">Home</Link>

@@ -1,5 +1,7 @@
 import { Link } from "react-router-dom";
-import restaurantFood from "../assets/images/restaurantfood.jpg";
+
+import restaurantFood from "../../assets/images/restaurantfood.jpg";
+import "./CallToAction.css";
 
 function CallToAction() {
   return (
@@ -7,6 +9,7 @@ function CallToAction() {
       <div className="hero-container">
         <div className="hero-text">
           <h1>Little Lemon</h1>
+
           <h2>Chicago</h2>
 
           <p>
@@ -14,7 +17,10 @@ function CallToAction() {
             traditional recipes served with a modern twist.
           </p>
 
-          <Link to="/booking" className="primary-button">
+          <Link
+            to="/booking"
+            className="primary-button"
+          >
             Reserve a Table
           </Link>
         </div>

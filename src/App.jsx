@@ -1,12 +1,13 @@
 import "./App.css";
-import Header from "./components/Header.jsx";
-import Nav from "./components/Navigation.jsx";
-import Main from "./components/Main.jsx";
-import Footer from "./components/Footer.jsx";
+
+import Header from "./components/Header/Header.jsx";
+import Nav from "./components/Navigation/Navigation.jsx";
+import Main from "./components/Routes/Main.jsx";
+import Footer from "./components/Footer/Footer.jsx";
 
 function App() {
   return (
-    <>
+    <div className="app">
       <div className="top-navigation">
         <Header />
         <Nav />
@@ -15,7 +16,7 @@ function App() {
       <Main />
 
       <Footer />
-    </>
+    </div>
   );
 }
 

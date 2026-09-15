@@ -1,0 +1,113 @@
+.booking-form {
+  width: 100%;
+  max-width: 500px;
+
+  display: grid;
+  gap: 22px;
+}
+
+.booking-field {
+  display: grid;
+  gap: 8px;
+}
+
+.booking-field label {
+  color: var(--highlight-dark);
+
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.booking-field input,
+.booking-field select {
+  width: 100%;
+  height: 60px;
+
+  padding: 0 16px;
+
+  border: 2px solid transparent;
+  border-radius: 8px;
+
+  outline: none;
+
+  background-color: var(--highlight-light);
+  color: var(--primary-green);
+
+  font-size: 16px;
+  font-weight: 700;
+
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.booking-field input:focus,
+.booking-field select:focus {
+  border-color: var(--primary-green);
+
+  box-shadow:
+    0 0 0 3px rgba(73, 94, 87, 0.15);
+}
+
+.booking-field input[type="date"],
+.booking-field select {
+  cursor: pointer;
+}
+
+.booking-field select option {
+  background-color: var(--highlight-light);
+  color: var(--primary-green);
+
+  font-weight: 700;
+}
+
+.booking-submit {
+  width: 100%;
+  height: 56px;
+
+  margin-top: 8px;
+
+  border: none;
+  border-radius: var(--border-radius);
+
+  background-color: var(--primary-yellow);
+  color: var(--highlight-dark);
+
+  font-size: 17px;
+  font-weight: 700;
+
+  cursor: pointer;
+
+  transition:
+    background-color 0.2s ease,
+    transform 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+.booking-submit:hover {
+  background-color: #ffe04c;
+  transform: translateY(-2px);
+}
+
+.booking-submit:active {
+  transform: translateY(0);
+
+  box-shadow:
+    inset 0 4px 4px rgba(0, 0, 0, 0.2);
+}
+
+.booking-submit:focus-visible {
+  outline: 3px solid var(--primary-green);
+  outline-offset: 3px;
+}
+
+@media (max-width: 700px) {
+  .booking-form {
+    max-width: 100%;
+  }
+
+  .booking-field input,
+  .booking-field select {
+    height: 56px;
+  }
+}

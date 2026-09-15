@@ -1,0 +1,43 @@
+.about-page {
+  width: 100%;
+}
+
+.about-page-header {
+  width: min(100% - 48px, var(--content-width));
+
+  margin: 0 auto;
+  padding: 70px 0 0;
+
+  text-align: center;
+}
+
+.about-page-header h1 {
+  margin: 0 0 12px;
+
+  color: var(--primary-green);
+
+  font-size: 52px;
+  font-weight: 500;
+}
+
+.about-page-header p {
+  max-width: 600px;
+
+  margin: 0 auto;
+
+  color: var(--highlight-dark);
+
+  font-size: 17px;
+  line-height: 1.5;
+}
+
+@media (max-width: 700px) {
+  .about-page-header {
+    width: min(100% - 32px, var(--content-width));
+    padding-top: 50px;
+  }
+
+  .about-page-header h1 {
+    font-size: 44px;
+  }
+}

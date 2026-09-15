@@ -1,13 +1,22 @@
 import { Link } from "react-router-dom";
-import logo from "../assets/images/Logo.svg";
+
+import logo from "../../assets/images/Logo.svg";
+
+import "./Footer.css";
 
 function Footer() {
   return (
     <footer className="site-footer">
       <div className="footer-container">
         <div className="footer-logo">
-          <Link to="/" aria-label="Little Lemon Home">
-            <img src={logo} alt="Little Lemon" />
+          <Link
+            to="/"
+            aria-label="Little Lemon Home"
+          >
+            <img
+              src={logo}
+              alt="Little Lemon"
+            />
           </Link>
         </div>
 
@@ -28,11 +37,15 @@ function Footer() {
             </li>
 
             <li>
-              <Link to="/booking">Reservations</Link>
+              <Link to="/booking">
+                Reservations
+              </Link>
             </li>
 
             <li>
-              <Link to="/order-online">Order Online</Link>
+              <Link to="/order-online">
+                Order Online
+              </Link>
             </li>
 
             <li>
@@ -46,12 +59,15 @@ function Footer() {
 
           <address>
             <p>2395 Maldove Way</p>
+
             <p>Chicago, Illinois</p>
+
             <p>
               <a href="tel:+16292436827">
                 (629) 243-6827
               </a>
             </p>
+
             <p>
               <a href="mailto:info@littlelemon.com">
                 info@littlelemon.com
@@ -65,15 +81,21 @@ function Footer() {
 
           <ul>
             <li>
-              <a href="#facebook">Facebook</a>
+              <a href="#facebook">
+                Facebook
+              </a>
             </li>
 
             <li>
-              <a href="#instagram">Instagram</a>
+              <a href="#instagram">
+                Instagram
+              </a>
             </li>
 
             <li>
-              <a href="#twitter">Twitter</a>
+              <a href="#twitter">
+                Twitter
+              </a>
             </li>
           </ul>
         </div>

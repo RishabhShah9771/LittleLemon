@@ -1,7 +1,9 @@
-import greekSalad from "../assets/images/greekSalad.jpg";
-import bruschetta from "../assets/images/bruchetta.svg";
-import lemonDessert from "../assets/images/lemonDessert.jpg";
-import deliveryIcon from "../assets/images/deliveryIcon.svg";
+import greekSalad from "../../assets/images/greekSalad.jpg";
+import bruschetta from "../../assets/images/bruchetta.svg";
+import lemonDessert from "../../assets/images/lemonDessert.jpg";
+import deliveryIcon from "../../assets/images/deliveryIcon.svg";
+
+import "./Specials.css";
 
 const specials = [
   {
@@ -31,7 +33,7 @@ function Specials() {
   return (
     <section className="specials">
       <div className="specials-heading">
-        <h2>This Week's Specials!</h2>
+        <h2>This Week&apos;s Specials!</h2>
 
         <button type="button">
           Online Menu
@@ -40,7 +42,10 @@ function Specials() {
 
       <div className="specials-grid">
         {specials.map((special) => (
-          <article className="special-card" key={special.name}>
+          <article
+            className="special-card"
+            key={special.name}
+          >
             <img
               className="special-image"
               src={special.image}

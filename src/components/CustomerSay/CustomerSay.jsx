@@ -1,3 +1,5 @@
+import "./CustomerSay.css";
+
 const testimonials = [
   {
     name: "Sarah",
@@ -17,7 +19,8 @@ const testimonials = [
   {
     name: "David",
     rating: 5,
-    review: "The food was delicious and the service was excellent.",
+    review:
+      "The food was delicious and the service was excellent.",
   },
 ];
 
@@ -28,7 +31,10 @@ function CustomersSay() {
 
       <div className="testimonial-grid">
         {testimonials.map((customer) => (
-          <article className="testimonial-card" key={customer.name}>
+          <article
+            className="testimonial-card"
+            key={customer.name}
+          >
             <div
               className="rating"
               aria-label={`${customer.rating} out of 5 stars`}

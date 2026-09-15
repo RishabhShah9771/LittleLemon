@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Karla:wght@400;500;600;700&family=Markazi+Text:wght@400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Karla:wght@400;500;600;700;800&family=Markazi+Text:wght@400;500;600;700&display=swap");
 
 *,
 *::before,
@@ -13,7 +13,6 @@ html {
 body {
   min-width: 320px;
   min-height: 100vh;
-
   margin: 0;
 
   background-color: #ffffff;
@@ -25,6 +24,33 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+#root {
+  width: 100%;
+  min-height: 100vh;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: "Markazi Text", Georgia, serif;
+}
+
+p,
+a,
+button,
+input,
+select,
+textarea,
+label,
+li,
+span,
+strong {
+  font-family: "Karla", Arial, sans-serif;
+}
+
 button,
 input,
 select,
@@ -33,6 +59,7 @@ textarea {
 }
 
 img {
+  display: block;
   max-width: 100%;
 }
 
