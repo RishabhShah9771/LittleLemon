@@ -5,6 +5,7 @@ import "./BookingForm.css";
 function BookingForm({
   availableTimes,
   onDateChange,
+  submitForm,
 }) {
   const [date, setDate] = useState("");
   const [time, setTime] = useState("");
@@ -25,24 +26,21 @@ function BookingForm({
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    const newBooking = {
+    const formData = {
       date,
       time,
       guests,
       occasion,
     };
 
-    setBookingData((previousBookings) => [
-      ...previousBookings,
-      newBooking,
-    ]);
+    const success = submitForm(formData);
 
-    console.log("Booking data:", newBooking);
-
-    setDate("");
-    setTime("");
-    setGuests(1);
-    setOccasion("");
+    if (success) {
+      setBookingData((previousBookings) => [
+        ...previousBookings,
+        formData,
+      ]);
+    }
   };
 
   return (
@@ -147,9 +145,7 @@ function BookingForm({
 
       {bookingData.length > 0 && (
         <div className="booking-table-container">
-          <h2>
-            Your Reservations
-          </h2>
+          <h2>Your Reservations</h2>
 
           <div className="booking-table-wrapper">
             <table className="booking-table">
@@ -168,8 +164,11 @@ function BookingForm({
                     key={`${booking.date}-${booking.time}-${index}`}
                   >
                     <td>{booking.date}</td>
+
                     <td>{booking.time}</td>
+
                     <td>{booking.guests}</td>
+
                     <td>
                       {booking.occasion || "None"}
                     </td>

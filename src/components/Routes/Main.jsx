@@ -1,18 +1,32 @@
-import { Route, Routes } from "react-router-dom";
 import { useState } from "react";
+import {
+  Route,
+  Routes,
+  useNavigate,
+} from "react-router-dom";
 
 import Homepage from "../../pages/HomePage/Homepage.jsx";
 import BookingPage from "../../pages/BookingPage/Bookingpage.jsx";
-import AboutPage from "../../pages/AboutPage/AboutPage.jsx";
-import BookingTimesLoader from "../FetchAPI/BookingTimesLoader.jsx"
+import AboutPage from "../../pages//AboutPage/AboutPage.jsx";
+import ConfirmedBooking from "../../pages/ConfirmBookingPage/ConfirmedBooking.jsx";
 
+import BookingTimesLoader from "../../components/FetchAPI/BookingTimesLoader.jsx";
 
 function Main() {
   const [selectedDate, setSelectedDate] = useState("");
+  const [availableTimes, setAvailableTimes] = useState([]);
 
-  const [availableTimes, setAvailableTimes] = useState(
-    []
-  );
+  const navigate = useNavigate();
+
+  const submitForm = (formData) => {
+    const success = window.submitAPI(formData);
+
+    if (success) {
+      navigate("/confirmed");
+    }
+
+    return success;
+  };
 
   return (
     <main>
@@ -32,18 +46,23 @@ function Main() {
           element={<AboutPage />}
         />
 
-
         <Route
           path="/booking"
           element={
             <BookingPage
               availableTimes={availableTimes}
               onDateChange={setSelectedDate}
+              submitForm={submitForm}
             />
           }
         />
 
-     
+        <Route
+          path="/confirmed"
+          element={<ConfirmedBooking />}
+        />
+
+      
       </Routes>
     </main>
   );
