@@ -15,9 +15,6 @@ function BookingForm({
     const selectedDate = event.target.value;
 
     setDate(selectedDate);
-
-    // Clear the previously selected time because
-    // another date may have different available times.
     setTime("");
 
     onDateChange(selectedDate);
@@ -41,85 +38,96 @@ function BookingForm({
       className="booking-form"
       onSubmit={handleSubmit}
     >
-      <label htmlFor="res-date">
-        Choose date
-      </label>
+      <div className="booking-field">
+        <label htmlFor="res-date">
+          Choose date
+        </label>
 
-      <input
-        type="date"
-        id="res-date"
-        value={date}
-        onChange={handleDateChange}
-        required
-      />
+        <input
+          type="date"
+          id="res-date"
+          value={date}
+          onChange={handleDateChange}
+          required
+        />
+      </div>
 
-      <label htmlFor="res-time">
-        Choose time
-      </label>
+      <div className="booking-field">
+        <label htmlFor="res-time">
+          Choose time
+        </label>
 
-      <select
-        id="res-time"
-        value={time}
-        onChange={(event) =>
-          setTime(event.target.value)
-        }
-        required
-      >
-        <option value="">
-          Select a time
-        </option>
-
-        {availableTimes.map((availableTime) => (
-          <option
-            key={availableTime}
-            value={availableTime}
-          >
-            {availableTime}
+        <select
+          id="res-time"
+          value={time}
+          onChange={(event) =>
+            setTime(event.target.value)
+          }
+          required
+        >
+          <option value="">
+            Select a time
           </option>
-        ))}
-      </select>
 
-      <label htmlFor="guests">
-        Number of guests
-      </label>
+          {availableTimes.map((availableTime) => (
+            <option
+              key={availableTime}
+              value={availableTime}
+            >
+              {availableTime}
+            </option>
+          ))}
+        </select>
+      </div>
 
-      <input
-        type="number"
-        id="guests"
-        min="1"
-        max="10"
-        value={guests}
-        onChange={(event) =>
-          setGuests(Number(event.target.value))
-        }
-        required
-      />
+      <div className="booking-field">
+        <label htmlFor="guests">
+          Number of guests
+        </label>
 
-      <label htmlFor="occasion">
-        Occasion
-      </label>
+        <input
+          type="number"
+          id="guests"
+          min="1"
+          max="10"
+          value={guests}
+          onChange={(event) =>
+            setGuests(Number(event.target.value))
+          }
+          required
+        />
+      </div>
 
-      <select
-        id="occasion"
-        value={occasion}
-        onChange={(event) =>
-          setOccasion(event.target.value)
-        }
+      <div className="booking-field">
+        <label htmlFor="occasion">
+          Occasion
+        </label>
+
+        <select
+          id="occasion"
+          value={occasion}
+          onChange={(event) =>
+            setOccasion(event.target.value)
+          }
+        >
+          <option value="">
+            Select an occasion
+          </option>
+
+          <option value="Birthday">
+            Birthday
+          </option>
+
+          <option value="Anniversary">
+            Anniversary
+          </option>
+        </select>
+      </div>
+
+      <button
+        type="submit"
+        className="booking-submit"
       >
-        <option value="">
-          Select an occasion
-        </option>
-
-        <option value="Birthday">
-          Birthday
-        </option>
-
-        <option value="Anniversary">
-          Anniversary
-        </option>
-      </select>
-
-      <button type="submit">
         Make Your Reservation
       </button>
     </form>
