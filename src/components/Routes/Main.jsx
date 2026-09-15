@@ -1,19 +1,11 @@
 import { Route, Routes } from "react-router-dom";
+import {useReducer} from "react";
 
 import Homepage from "../../pages/HomePage/Homepage.jsx";
 import BookingPage from "../../pages/BookingPage/Bookingpage.jsx";
 import AboutPage from "../../pages/AboutPage/AboutPage.jsx";
 
-/*
-  Reducer function.
-
-  For this exercise, it returns the same available
-  times regardless of which date is selected.
-
-  In a later exercise, this can be updated to return
-  different times based on the selected date.
-*/
-export function updateTimes() {
+export function initializeTimes() {
   return [
     "17:00",
     "18:00",
@@ -24,18 +16,11 @@ export function updateTimes() {
   ];
 }
 
-/*
-  Creates the initial available booking times.
-*/
-export function initializeTimes() {
-  return [
-    "17:00",
-    "18:00",
-    "19:00",
-    "20:00",
-    "21:00",
-    "22:00",
-  ];
+export function updateTimes(state, action) {
+  console.log("Selected date:", action?.date);
+
+  // For now, return the existing available times.
+  return state;
 }
 
 function Main() {
@@ -55,10 +40,6 @@ function Main() {
           element={<AboutPage />}
         />
 
-        <Route
-          path="/menu"
-          element={<MenuPage />}
-        />
 
         <Route
           path="/booking"
@@ -70,15 +51,7 @@ function Main() {
           }
         />
 
-        <Route
-          path="/order-online"
-          element={<OrderOnlinePage />}
-        />
-
-        <Route
-          path="/login"
-          element={<LoginPage />}
-        />
+       
       </Routes>
     </main>
   );
