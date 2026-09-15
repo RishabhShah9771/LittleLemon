@@ -1,46 +1,71 @@
-import { describe, expect, test } from "vitest";
-
 import {
-  initializeTimes,
-  updateTimes,
-} from "./Main.jsx";
+  cleanup,
+  render,
+  screen,
+  waitFor,
+} from "@testing-library/react";
+import { MemoryRouter } from "react-router-dom";
+import {
+  afterEach,
+  beforeEach,
+  describe,
+  expect,
+  test,
+  vi,
+} from "vitest";
 
-describe("Booking available times", () => {
-  test("initializeTimes returns the expected available times", () => {
-    const expectedTimes = [
+import Main from "./Main.jsx";
+
+describe("Main", () => {
+  beforeEach(() => {
+    window.fetchAPI = vi.fn(() => [
       "17:00",
       "18:00",
       "19:00",
       "20:00",
       "21:00",
       "22:00",
-    ];
-
-    const result = initializeTimes();
-
-    expect(result).toEqual(expectedTimes);
+    ]);
   });
 
-  test("updateTimes returns the same state provided to it", () => {
-    const currentState = [
-      "17:00",
-      "18:00",
-      "19:00",
-      "20:00",
-      "21:00",
-      "22:00",
-    ];
+  afterEach(() => {
+    cleanup();
+    vi.clearAllMocks();
+  });
 
-    const action = {
-      type: "UPDATE_TIMES",
-      date: "2026-09-20",
-    };
-
-    const result = updateTimes(
-      currentState,
-      action
+  test("renders the booking page", () => {
+    render(
+      <MemoryRouter initialEntries={["/booking"]}>
+        <Main />
+      </MemoryRouter>
     );
 
-    expect(result).toEqual(currentState);
+    expect(
+      screen.getByText("Reserve a Table")
+    ).toBeInTheDocument();
+  });
+
+  test("displays available booking times", async () => {
+    render(
+      <MemoryRouter initialEntries={["/booking"]}>
+        <Main />
+      </MemoryRouter>
+    );
+
+    await waitFor(() => {
+      expect(window.fetchAPI).toHaveBeenCalled();
+    });
+
+    expect(
+      screen.getByRole("option", {
+        name: "17:00",
+      })
+    ).toBeInTheDocument();
+
+    expect(
+      screen.getByRole("option", {
+        name: "22:00",
+      })
+    ).toBeInTheDocument();
   });
 });

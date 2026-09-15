@@ -14,12 +14,12 @@ describe("BookingForm", () => {
       "22:00",
     ];
 
-    const dispatch = vi.fn();
+    const onDateChange = vi.fn();
 
     render(
       <BookingForm
         availableTimes={availableTimes}
-        dispatch={dispatch}
+        onDateChange={onDateChange}
       />
     );
 
