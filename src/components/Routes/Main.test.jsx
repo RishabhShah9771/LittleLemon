@@ -3,10 +3,11 @@ import {
   fireEvent,
   render,
   screen,
-  waitFor,
 } from "@testing-library/react";
 
-import { MemoryRouter } from "react-router-dom";
+import {
+  MemoryRouter,
+} from "react-router-dom";
 
 import {
   afterEach,
@@ -22,131 +23,289 @@ import Main, {
   updateTimes,
 } from "./Main.jsx";
 
-describe("Main", () => {
-  const mockTimes = [
-    "17:00",
-    "17:30",
-    "18:00",
-    "18:30",
-    "19:00",
-  ];
 
-  beforeEach(() => {
-    localStorage.clear();
+const mockTimes = [
+  "17:00",
+  "18:00",
+  "19:00",
+  "20:00",
+  "21:00",
+];
 
-    window.fetchAPI = vi.fn(() => mockTimes);
 
-    window.submitAPI = vi.fn(() => true);
-  });
+beforeEach(() => {
+  localStorage.clear();
 
-  afterEach(() => {
-    cleanup();
-    localStorage.clear();
-    vi.clearAllMocks();
-  });
+  window.fetchAPI = vi.fn(() => mockTimes);
 
-  test("initializeTimes returns available booking times", () => {
-    const result = initializeTimes();
+  window.submitAPI = vi.fn(() => true);
+});
 
-    expect(result).toEqual(mockTimes);
 
-    expect(result.length).toBeGreaterThan(0);
+afterEach(() => {
+  cleanup();
 
-    expect(window.fetchAPI).toHaveBeenCalledTimes(1);
-  });
+  vi.clearAllMocks();
+});
 
-  test("updateTimes returns available times for selected date", () => {
-    const currentState = [];
 
-    const action = {
-      type: "DATE_CHANGE",
-      date: "2026-09-20",
-    };
+describe("Booking available times", () => {
+  test(
+    "initializeTimes returns available booking times",
+    () => {
+      const result = initializeTimes();
 
-    const result = updateTimes(
-      currentState,
-      action
-    );
+      expect(result).toEqual(mockTimes);
 
-    expect(result).toEqual(mockTimes);
+      expect(result.length).toBeGreaterThan(0);
 
-    expect(window.fetchAPI).toHaveBeenCalledTimes(1);
-
-    expect(
-      window.fetchAPI
-    ).toHaveBeenCalledWith(
-      expect.any(Date)
-    );
-  });
-
-  test("writes a successful booking to localStorage", async () => {
-    render(
-      <MemoryRouter initialEntries={["/booking"]}>
-        <Main />
-      </MemoryRouter>
-    );
-
-    fireEvent.change(
-      screen.getByLabelText("Choose date"),
-      {
-        target: {
-          value: "2026-09-20",
-        },
-      }
-    );
-
-    fireEvent.change(
-      screen.getByLabelText("Choose time"),
-      {
-        target: {
-          value: "18:00",
-        },
-      }
-    );
-
-    fireEvent.change(
-      screen.getByLabelText("Number of guests"),
-      {
-        target: {
-          value: "4",
-        },
-      }
-    );
-
-    fireEvent.change(
-      screen.getByLabelText("Occasion"),
-      {
-        target: {
-          value: "Birthday",
-        },
-      }
-    );
-
-    fireEvent.click(
-      screen.getByRole("button", {
-        name: "Make Your Reservation",
-      })
-    );
-
-    await waitFor(() => {
       expect(
-        localStorage.getItem("bookingData")
-      ).not.toBeNull();
-    });
+        window.fetchAPI
+      ).toHaveBeenCalledTimes(1);
 
-    const savedBookings = JSON.parse(
-      localStorage.getItem("bookingData")
-    );
+      expect(
+        window.fetchAPI
+      ).toHaveBeenCalledWith(
+        expect.any(Date)
+      );
+    }
+  );
 
-    expect(savedBookings).toHaveLength(1);
 
-    expect(savedBookings[0]).toEqual({
-      date: "2026-09-20",
-      time: "18:00",
-      guests: 4,
-      occasion: "Birthday",
-    });
+  test(
+    "updateTimes returns available times for selected date",
+    () => {
+      const result = updateTimes(
+        [],
+        {
+          type: "DATE_CHANGE",
+          date: "2030-09-20",
+        }
+      );
 
-    expect(window.submitAPI).toHaveBeenCalled();
-  });
+      expect(result).toEqual(mockTimes);
+
+      expect(
+        window.fetchAPI
+      ).toHaveBeenCalledTimes(1);
+
+      expect(
+        window.fetchAPI
+      ).toHaveBeenCalledWith(
+        expect.any(Date)
+      );
+    }
+  );
+
+
+  test(
+    "updateTimes returns current state for unknown action",
+    () => {
+      const currentState = [
+        "17:00",
+        "18:00",
+      ];
+
+      const result = updateTimes(
+        currentState,
+        {
+          type: "UNKNOWN",
+        }
+      );
+
+      expect(result).toEqual(
+        currentState
+      );
+    }
+  );
+});
+
+
+describe("Main", () => {
+  test(
+    "shows login message when user is not logged in",
+    () => {
+      render(
+        <MemoryRouter
+          initialEntries={["/booking"]}
+        >
+          <Main
+            isLoggedIn={false}
+            setIsLoggedIn={vi.fn()}
+          />
+        </MemoryRouter>
+      );
+
+      expect(
+        screen.getByText(
+          /please login to reserve a table/i
+        )
+      ).toBeInTheDocument();
+
+      expect(
+        screen.getByRole("link", {
+          name: /login/i,
+        })
+      ).toBeInTheDocument();
+    }
+  );
+
+
+  test(
+    "shows booking form when user is logged in",
+    () => {
+      render(
+        <MemoryRouter
+          initialEntries={["/booking"]}
+        >
+          <Main
+            isLoggedIn={true}
+            setIsLoggedIn={vi.fn()}
+          />
+        </MemoryRouter>
+      );
+
+      expect(
+        screen.getByLabelText(
+          "Choose date"
+        )
+      ).toBeInTheDocument();
+
+      expect(
+        screen.getByLabelText(
+          "Choose time"
+        )
+      ).toBeInTheDocument();
+
+      expect(
+        screen.getByLabelText(
+          "Number of guests"
+        )
+      ).toBeInTheDocument();
+
+      expect(
+        screen.getByLabelText(
+          "Occasion"
+        )
+      ).toBeInTheDocument();
+    }
+  );
+
+
+  test(
+    "writes a successful booking to localStorage",
+    () => {
+      render(
+        <MemoryRouter
+          initialEntries={["/booking"]}
+        >
+          <Main
+            isLoggedIn={true}
+            setIsLoggedIn={vi.fn()}
+          />
+        </MemoryRouter>
+      );
+
+
+      fireEvent.change(
+        screen.getByLabelText(
+          "Choose date"
+        ),
+        {
+          target: {
+            value: "2030-09-20",
+          },
+        }
+      );
+
+
+      fireEvent.change(
+        screen.getByLabelText(
+          "Choose time"
+        ),
+        {
+          target: {
+            value: "17:00",
+          },
+        }
+      );
+
+
+      fireEvent.change(
+        screen.getByLabelText(
+          "Number of guests"
+        ),
+        {
+          target: {
+            value: "2",
+          },
+        }
+      );
+
+
+      fireEvent.change(
+        screen.getByLabelText(
+          "Occasion"
+        ),
+        {
+          target: {
+            value: "Birthday",
+          },
+        }
+      );
+
+
+      const submitButton =
+        screen.getByRole(
+          "button",
+          {
+            name: /make your reservation/i,
+          }
+        );
+
+
+      expect(
+        submitButton
+      ).not.toBeDisabled();
+
+
+      fireEvent.click(
+        submitButton
+      );
+
+
+      expect(
+        window.submitAPI
+      ).toHaveBeenCalledTimes(1);
+
+
+      const savedBookings =
+        JSON.parse(
+          localStorage.getItem(
+            "bookingData"
+          )
+        );
+
+
+      expect(
+        savedBookings
+      ).toHaveLength(1);
+
+
+      expect(
+        savedBookings[0]
+      ).toMatchObject({
+        date: "2030-09-20",
+        time: "17:00",
+        occasion: "Birthday",
+      });
+
+
+      expect(
+        Number(
+          savedBookings[0].guests
+        )
+      ).toBe(2);
+    }
+  );
 });

@@ -1,3 +1,4 @@
+import {useState} from 'react'
 import "./App.css";
 
 import Header from "./components/Header/Header.jsx";
@@ -6,15 +7,35 @@ import Main from "./components/Routes/Main.jsx";
 import Footer from "./components/Footer/Footer.jsx";
 
 function App() {
+  const [isLoggedIn, setIsLoggedIn] = useState(() => {
+    return localStorage.getItem("isLoggedIn") === "true";
+  });
+
+  const handleLogout = () => {
+    localStorage.removeItem("isLoggedIn");
+    localStorage.removeItem("userEmail");
+
+    setIsLoggedIn(false);
+  };
+
   return (
-    <div className="app">
+    <>
       <div className="top-navigation">
         <Header />
-        <Nav />
+
+        <Nav
+          isLoggedIn={isLoggedIn}
+          onLogout={handleLogout}
+        />
       </div>
-      <Main />
+
+      <Main
+        isLoggedIn={isLoggedIn}
+        setIsLoggedIn={setIsLoggedIn}
+      />
+
       <Footer />
-    </div>
+    </>
   );
 }
 

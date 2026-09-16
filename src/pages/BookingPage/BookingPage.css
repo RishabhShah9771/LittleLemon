@@ -1,39 +1,119 @@
 .booking-page {
   width: 100%;
 
-  padding: 50px 20px 80px;
-
-  box-sizing: border-box;
+  padding: 60px 20px 80px;
 }
 
 .booking-page-container {
   width: 100%;
-
-  max-width: 500px;
+  max-width: 600px;
 
   margin: 0 auto;
 }
 
 .booking-page-title {
-  margin: 0 0 40px;
+  margin: 0 0 32px;
 
-  color: var(--highlight-dark);
+  color: var(--primary-green);
 
-  font-size: 32px;
-
-  font-weight: 700;
+  font-size: 40px;
+  font-weight: 600;
 
   text-align: center;
 }
 
+/* Logged-out message */
+
+.booking-login-message {
+  width: 100%;
+
+  padding: 50px 40px;
+
+  background-color: var(--highlight-light);
+
+  border-radius: 16px;
+
+  text-align: center;
+
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+}
+
+.booking-login-message h2 {
+  margin: 0 0 12px;
+
+  color: var(--primary-green);
+
+  font-size: 30px;
+  font-weight: 600;
+}
+
+.booking-login-message p {
+  margin: 0 0 28px;
+
+  color: var(--highlight-dark);
+
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+.booking-login-button {
+  display: inline-block;
+
+  min-width: 130px;
+
+  padding: 14px 28px;
+
+  border-radius: 8px;
+
+  background-color: var(--primary-yellow);
+  color: var(--highlight-dark);
+
+  font-size: 16px;
+  font-weight: 700;
+
+  text-decoration: none;
+
+  transition:
+    background-color 0.2s ease,
+    transform 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+.booking-login-button:hover {
+  background-color: #ffe04c;
+
+  transform: translateY(-2px);
+
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12);
+}
+
+.booking-login-button:active {
+  transform: translateY(0);
+}
+
+.booking-login-button:focus-visible {
+  outline: 3px solid var(--primary-green);
+  outline-offset: 3px;
+}
+
+/* Tablet / Mobile */
+
 @media (max-width: 700px) {
   .booking-page {
-    padding: 36px 20px 60px;
+    padding: 40px 20px 60px;
   }
 
   .booking-page-title {
-    margin-bottom: 30px;
+    margin-bottom: 24px;
 
-    font-size: 28px;
+    font-size: 34px;
+  }
+
+  .booking-login-message {
+    padding: 40px 24px;
+  }
+
+  .booking-login-message h2 {
+    font-size: 26px;
   }
 }
