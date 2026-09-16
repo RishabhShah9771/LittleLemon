@@ -1,8 +1,22 @@
-import { Link } from "react-router-dom";
+import {
+  Link,
+  useNavigate,
+} from "react-router-dom";
 
 import "./Navigation.css";
 
-function Nav() {
+function Nav({
+  isLoggedIn,
+  onLogout,
+}) {
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    onLogout();
+
+    navigate("/login");
+  };
+
   return (
     <nav
       className="main-navigation"
@@ -10,27 +24,49 @@ function Nav() {
     >
       <ul>
         <li>
-          <Link to="/">Home</Link>
+          <Link to="/">
+            Home
+          </Link>
         </li>
 
         <li>
-          <Link to="/about">About</Link>
+          <Link to="/about">
+            About
+          </Link>
         </li>
 
         <li>
-          <Link to="/menu">Menu</Link>
+          <Link to="/menu">
+            Menu
+          </Link>
         </li>
 
         <li>
-          <Link to="/booking">Reservations</Link>
+          <Link to="/booking">
+            Reservations
+          </Link>
         </li>
 
         <li>
-          <Link to="/order-online">Order Online</Link>
+          <Link to="/order-online">
+            Order Online
+          </Link>
         </li>
 
         <li>
-          <Link to="/login">Login</Link>
+          {isLoggedIn ? (
+            <button
+              type="button"
+              className="nav-logout"
+              onClick={handleLogout}
+            >
+              Logout
+            </button>
+          ) : (
+            <Link to="/login">
+              Login
+            </Link>
+          )}
         </li>
       </ul>
     </nav>

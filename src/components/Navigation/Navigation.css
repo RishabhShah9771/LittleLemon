@@ -6,6 +6,7 @@
 .main-navigation ul {
   display: flex;
   align-items: center;
+
   gap: 26px;
 
   margin: 0;
@@ -19,30 +20,43 @@
   padding: 0;
 }
 
-.main-navigation a {
+.main-navigation a,
+.nav-logout {
+  padding: 0;
+
+  border: none;
+  background: none;
+
   color: var(--highlight-dark);
 
+  font-family: inherit;
   font-size: 16px;
   font-weight: 700;
 
   text-decoration: none;
 
+  cursor: pointer;
+
   transition: color 0.2s ease;
 }
 
-.main-navigation a:hover {
+.main-navigation a:hover,
+.nav-logout:hover {
   color: var(--primary-green);
 }
 
-.main-navigation a:focus-visible {
+.main-navigation a:focus-visible,
+.nav-logout:focus-visible {
   outline: 2px solid var(--primary-yellow);
   outline-offset: 4px;
+
   border-radius: 4px;
 }
 
 @media (max-width: 900px) {
   .main-navigation ul {
     flex-wrap: wrap;
+
     gap: 14px 22px;
   }
 }
